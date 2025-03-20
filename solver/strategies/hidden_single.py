@@ -1,3 +1,4 @@
+from itertools import chain
 from typing import Iterable
 
 from sudoku import Cell, Container
@@ -12,7 +13,7 @@ class HiddenSingle(BasicStrategy):
         return "Hidden single"
 
     def _get_base_containers(self) -> Iterable[Container]:
-        return self._grid.rows + self._grid.columns + self._grid.boxes
+        return chain(self._grid.rows, self._grid.columns, self._grid.boxes)
 
     def _solve_container(self, container: Container) -> bool:
         for cand in range(1, 10):

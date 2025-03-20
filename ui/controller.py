@@ -1,7 +1,5 @@
-from typing import Iterable
-
-from solver import BruteForcer, Solver, SolverException
-from sudoku import Cell, Grid, HistoryManager, SudokuException, as_complex_action
+from solver import BruteForcer, SolverException, StepSolver
+from sudoku import Cell, Grid, HistoryManager, SudokuException
 
 from .grid_frame import Cursor
 from .window import Window
@@ -13,7 +11,6 @@ class Controller:
         self._grid = grid
         self._grid.history_manager.enable_history()
         self._grid.history_manager.add_on_change_handler(self._on_grid_changed)
-        self._brute_forcer = BruteForcer(self._grid)
         self._cell: Cell | None = None
         self._value: int | None = None
         self._update_value_counts()
@@ -73,7 +70,6 @@ class Controller:
         self._grid = grid
         self._grid.history_manager.enable_history()
         self._grid.history_manager.add_on_change_handler(self._on_grid_changed)
-        self._brute_forcer = BruteForcer(self._grid)
         self._cell = None
         self._value = None
         self._update_selected_value()
@@ -84,37 +80,32 @@ class Controller:
 
     def _on_solve_step(self) -> None:
         try:
-            if not Solver(self._grid).solve_step():
+            if not StepSolver(self._grid).solve():
                 self._window.show_info("No step progress")
         except SolverException as e:
             self._window.show_info(str(e))
 
     def _on_solve(self) -> None:
+        step_solver = StepSolver(self._grid)
         try:
-            if not Solver(self._grid).solve():
-                self._window.show_info("Not solved")
+            while not self._grid.is_solved:
+                if not step_solver.solve():
+                    self._window.show_info("Not solved")
+                    return
         except SolverException as e:
             self._window.show_info(str(e))
 
     def _on_show_solution(self) -> None:
-        solution = self._brute_forcer.create_solution()
-        if not solution:
+        if not BruteForcer(self._grid).solve():
             self._window.show_info("No solution not found")
-        elif solution != "".join(str(cell.value) for cell in self._grid.cells):
-            self._apply_solution(solution)
-        else:
-            self._window.show_info("Same solution achieved")
 
     def _on_undo(self) -> None:
-        self._brute_forcer.reset()
         self._grid.history_manager.undo()
 
     def _on_redo(self) -> None:
-        self._brute_forcer.reset()
         self._grid.history_manager.redo()
 
     def _on_reset(self) -> None:
-        self._brute_forcer.reset()
         self._grid.reset()
 
     def _on_grid_changed(self) -> None:
@@ -156,11 +147,6 @@ class Controller:
             self._grid.set_value(self._cell, value)
         else:
             self._cell.value = value
-
-    @as_complex_action
-    def _apply_solution(self, solution: Iterable[str]) -> None:
-        for cell, value in zip(self._grid.cells, solution):
-            cell.value = int(value)
 
     def _update_selected_value(self) -> None:
         self._window.values_frame.clear_selected_value()

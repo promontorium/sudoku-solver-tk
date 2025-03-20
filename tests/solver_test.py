@@ -2,7 +2,7 @@ import unittest
 from logging import WARNING
 from os import path
 
-from solver import Solver
+from solver import StepSolver
 from sudoku import Grid
 
 
@@ -23,8 +23,9 @@ class SolverTest(unittest.TestCase):
                 quiz = line.strip().split(",")[0]
                 grid = Grid(quiz)
                 grid.init_candidates()
-                with self.assertLogs(level=WARNING):
-                    self.assertFalse(Solver(grid).solve(), f"{quiz} should be unsolvable")
+                step_solver = StepSolver(grid)
+                while step_solver.solve():
+                    pass
                 self.assertFalse(grid.is_solved, f"{quiz}: should not be solved")
                 self.assertTrue(grid.is_consistent, f"{quiz}: is inconsistent")
 
@@ -36,9 +37,11 @@ class SolverTest(unittest.TestCase):
                     continue
                 quiz, solution = line.strip().split(",")
                 grid = Grid(quiz)
+                step_solver = StepSolver(grid)
                 with self.assertNoLogs(level=WARNING):
                     grid.init_candidates()
-                    self.assertTrue(Solver(grid).solve(), f"{quiz} solution not found")
+                    while not grid.is_solved:  # TODO infinite loop ?
+                        self.assertTrue(step_solver.solve(), f"{quiz} solution not found")
                 result = "".join(str(cell.value) for cell in grid.cells)
                 self.assertEqual(result, solution, f"{quiz}: wrong solution")
 
