@@ -1,7 +1,6 @@
 import heapq
 
-from sudoku import Grid
-
+from . import Grid
 from .solver import Solver
 
 

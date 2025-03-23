@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 from logging import getLogger
 
-from sudoku import Grid, HistoryManager, as_complex_action
-
+from . import Grid, HistoryManager, as_complex_action
 from .exceptions import SolverException
 from .strategies import StrategyException
 

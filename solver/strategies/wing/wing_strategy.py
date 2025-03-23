@@ -3,8 +3,7 @@ from functools import reduce
 from itertools import combinations, product
 from typing import Iterable
 
-from sudoku import Cell
-
+from ... import Cell
 from ..exceptions import StrategyException
 from ..strategy import Strategy
 

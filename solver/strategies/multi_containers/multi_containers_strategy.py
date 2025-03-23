@@ -1,8 +1,7 @@
 from abc import abstractmethod
 from typing import Iterable
 
-from sudoku import Cell, Container, Grid
-
+from ... import Cell, Container, Grid
 from ..exceptions import StrategyException
 from ..strategy import Strategy
 

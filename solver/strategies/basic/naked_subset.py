@@ -1,8 +1,7 @@
 from itertools import chain, combinations
 from typing import Iterable
 
-from sudoku import Container, Grid
-
+from ... import Container, Grid
 from ..exceptions import StrategyException
 from .basic_strategy import BasicStrategy
 

@@ -1,8 +1,7 @@
 import itertools
 from typing import Collection, Iterable, Mapping
 
-from sudoku import Cell, Container, Grid
-
+from ... import Cell, Container, Grid
 from ..exceptions import StrategyException
 from .multi_containers_strategy import MultiContainersStrategy
 
