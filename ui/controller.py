@@ -1,5 +1,5 @@
 from solver import BruteForcer, SolverException, StepSolver
-from sudoku import Cell, Grid, HistoryManager, SudokuException
+from sudoku import Cell, Grid, HistoryManager, SudokuException, as_complex_action
 
 from .grid_frame import Cursor
 from .window import Window
@@ -85,19 +85,24 @@ class Controller:
         except SolverException as e:
             self._window.show_info(str(e))
 
+    @as_complex_action
     def _on_solve(self) -> None:
-        step_solver = StepSolver(self._grid)
         try:
-            while not self._grid.is_solved:
-                if not step_solver.solve():
-                    self._window.show_info("Not solved")
-                    return
+            step_solver = StepSolver(self._grid)
+            while step_solver.solve():
+                pass
         except SolverException as e:
             self._window.show_info(str(e))
+            return
+        if not self._grid.is_solved:
+            self._window.show_info("Not solved")
 
     def _on_show_solution(self) -> None:
-        if not BruteForcer(self._grid).solve():
-            self._window.show_info("No solution not found")
+        try:
+            if not BruteForcer(self._grid).solve():
+                self._window.show_info("No solution not found")
+        except SolverException as e:
+            self._window.show_info(str(e))
 
     def _on_undo(self) -> None:
         self._grid.history_manager.undo()

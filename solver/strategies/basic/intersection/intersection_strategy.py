@@ -2,7 +2,7 @@ from abc import abstractmethod
 
 from sudoku import Cell, Container
 
-from .basic_strategy import BasicStrategy
+from ..basic_strategy import BasicStrategy
 
 
 class IntersectionStrategy(BasicStrategy):

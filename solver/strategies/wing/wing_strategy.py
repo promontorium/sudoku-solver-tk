@@ -5,8 +5,8 @@ from typing import Iterable
 
 from sudoku import Cell
 
-from .exceptions import SolverException
-from .strategy import Strategy
+from ..exceptions import StrategyException
+from ..strategy import Strategy
 
 
 class WingStrategy(Strategy):
@@ -57,7 +57,7 @@ class WingStrategy(Strategy):
         if not pincers_common_cands:
             return False
         if len(pincers_common_cands) > 1:
-            raise SolverException(f"{self}: Internal error. Incorrect pincers")
+            raise StrategyException(f"{self}: Internal error. Incorrect pincers")
         cand = next(iter((pincers_common_cands)))
         affected_cells = self._get_affected_cells(cand, pivot, (pincer1, pincer2))
         if not affected_cells:

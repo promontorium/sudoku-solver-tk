@@ -3,7 +3,7 @@ from typing import Iterable
 
 from sudoku import Container, Grid
 
-from .strategy import Strategy
+from ..strategy import Strategy
 
 
 class BasicStrategy(Strategy):
