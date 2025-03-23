@@ -1,5 +1,4 @@
-from sudoku import Grid
-
+from . import Grid
 from .solver import Solver
 from .strategies import (
     BasicFish,
