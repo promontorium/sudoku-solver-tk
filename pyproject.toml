@@ -10,6 +10,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "events-stubs",
     "mypy>=1.15.0",
     "ruff>=0.11.2",
 ]
@@ -47,3 +48,6 @@ no_implicit_reexport = true
 
 # Extra
 strict = true
+
+[tool.uv.sources]
+events-stubs = { git = "https://github.com/promontorium/events-stubs" }

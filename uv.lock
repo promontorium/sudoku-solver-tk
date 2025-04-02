@@ -11,6 +11,14 @@ wheels = [
 ]
 
 [[package]]
+name = "events-stubs"
+version = "0.1.0"
+source = { git = "https://github.com/promontorium/events-stubs#42bdb55fc74c17d85808829a4880a8cc81e9e2b6" }
+dependencies = [
+    { name = "events" },
+]
+
+[[package]]
 name = "mypy"
 version = "1.15.0"
 source = { registry = "https://pypi.org/simple" }
@@ -85,6 +93,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "events-stubs" },
     { name = "mypy" },
     { name = "ruff" },
 ]
@@ -94,6 +103,7 @@ requires-dist = [{ name = "events", specifier = ">=0.5" }]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "events-stubs", git = "https://github.com/promontorium/events-stubs" },
     { name = "mypy", specifier = ">=1.15.0" },
     { name = "ruff", specifier = ">=0.11.2" },
 ]

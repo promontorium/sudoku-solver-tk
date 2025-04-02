@@ -3,7 +3,7 @@ from tkinter import simpledialog
 from tkinter.ttk import Separator
 from typing import Callable
 
-from events import Events  # type: ignore[import-untyped]
+from events import Events
 
 
 class SidePanelFrame(tk.Frame):

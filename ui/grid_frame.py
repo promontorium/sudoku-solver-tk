@@ -2,7 +2,7 @@ import tkinter as tk
 from enum import Enum
 from typing import Callable, Iterable
 
-from events import Events  # type: ignore[import-untyped]
+from events import Events
 
 
 class Cursor(Enum):

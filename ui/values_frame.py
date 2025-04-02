@@ -1,7 +1,7 @@
 import tkinter as tk
 from typing import Callable
 
-from events import Events  # type: ignore[import-untyped]
+from events import Events
 
 
 class ValuesFrame(tk.Frame):
